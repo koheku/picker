@@ -44,6 +44,7 @@ public abstract class ReactPickerManager extends SimpleViewManager<ReactPicker> 
     if (adapter == null) {
       adapter = new ReactPickerAdapter(view.getContext(), items);
       adapter.setPrimaryTextColor(view.getPrimaryColor());
+      adapter.setPrimaryBackgroundColor(view.getBackgroundColor());
       view.setAdapter(adapter);
     } else {
       adapter.setItems(items);
@@ -56,6 +57,15 @@ public abstract class ReactPickerManager extends SimpleViewManager<ReactPicker> 
     ReactPickerAdapter adapter = (ReactPickerAdapter) view.getAdapter();
     if (adapter != null) {
       adapter.setPrimaryTextColor(color);
+    }
+  }
+
+  @ReactProp(name = ViewProps.BACKGROUND_COLOR, customType = "Color")
+  public void setBackgroundColor(ReactPicker view, @Nullable Integer color) {
+    view.setBackgroundColor(color);
+    ReactPickerAdapter adapter = (ReactPickerAdapter) view.getAdapter();
+    if (adapter != null) {
+      adapter.setPrimaryBackgroundColor(color);
     }
   }
 
@@ -98,6 +108,7 @@ public abstract class ReactPickerManager extends SimpleViewManager<ReactPicker> 
   private static class ReactPickerAdapter extends BaseAdapter {
     private final LayoutInflater mInflater;
     private @Nullable Integer mPrimaryTextColor;
+    private @Nullable Integer mPrimaryBackgroundColor;
     private @Nullable ReadableArray mItems;
 
     public ReactPickerAdapter(Context context, @Nullable ReadableArray items) {
@@ -162,6 +173,10 @@ public abstract class ReactPickerManager extends SimpleViewManager<ReactPicker> 
         Typeface face = Typeface.create(item.getString("fontFamily"), Typeface.NORMAL);
         // Typeface face = Typeface.create("MuseoSans-500", Typeface.NORMAL);
         textView.setTypeface(face);
+      if (!isDropdown && mPrimaryBackgroundColor != null) {
+        textView.setBackgroundColor(mPrimaryBackgroundColor);
+      } else if (item.hasKey("backgroundColor") && !item.isNull("backgroundColor")) {
+        textView.setBackgroundColor(item.getInt("backgroundColor"));
       }
 
       return convertView;
@@ -169,6 +184,11 @@ public abstract class ReactPickerManager extends SimpleViewManager<ReactPicker> 
 
     public void setPrimaryTextColor(@Nullable Integer primaryTextColor) {
       mPrimaryTextColor = primaryTextColor;
+      notifyDataSetChanged();
+    }
+
+    public void setPrimaryBackgroundColor(@Nullable Integer primaryBackgroundColor) {
+      mPrimaryBackgroundColor = primaryBackgroundColor;
       notifyDataSetChanged();
     }
   }

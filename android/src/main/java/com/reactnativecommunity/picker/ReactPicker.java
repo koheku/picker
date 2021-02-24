@@ -22,6 +22,7 @@ public class ReactPicker extends AppCompatSpinner {
 
   private int mMode = Spinner.MODE_DIALOG;
   private @Nullable Integer mPrimaryColor;
+  private @Nullable Integer mBackgroundColor;
   private @Nullable OnSelectListener mOnSelectListener;
   private @Nullable Integer mStagedSelection;
 
@@ -144,8 +145,16 @@ public class ReactPicker extends AppCompatSpinner {
     return mPrimaryColor;
   }
 
+  public @Nullable Integer getBackgroundColor() {
+    return mBackgroundColor;
+  }
+
   public void setPrimaryColor(@Nullable Integer primaryColor) {
     mPrimaryColor = primaryColor;
+  }
+
+  public void setBackgroundColor(@Nullable Integer backgroundColor) {
+    mBackgroundColor = backgroundColor;
   }
 
   @VisibleForTesting

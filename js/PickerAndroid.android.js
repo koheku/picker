@@ -47,6 +47,7 @@ type PickerAndroidProps = $ReadOnly<{|
 type Item = $ReadOnly<{|
   label: string,
   value: ?(number | string),
+  backgroundColor?: ?number,
   color?: ?number,
   fontFamily: ?string,
 |}>;
@@ -83,6 +84,11 @@ class PickerAndroid extends React.Component<
         /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was
          * found when making Flow check .android.js files. */
         childProps.color = processColor(child.props.color);
+      }
+      if (child.props.backgroundColor) {
+        /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was
+         * found when making Flow check .android.js files. */
+        childProps.backgroundColor = processColor(child.props.backgroundColor);
       }
       return childProps;
     });
